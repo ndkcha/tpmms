@@ -20,8 +20,8 @@ public class MergeSort {
      * @param freeMemory the available main memory for the process
      */
     MergeSort(long freeMemory) {
-        this.noTuple = freeMemory / 240;
-        this.noTuple /= 1.7;
+        this.noTuple = freeMemory / 250;
+        this.noTuple /= 1.6;
 
         System.out.println("Free memory (bytes): " + freeMemory);
         System.out.println("Number of tuples(s) to fit: " + this.noTuple);
@@ -48,8 +48,6 @@ public class MergeSort {
             for (int i = 0; i < this.noTuple && scanner.hasNext(); i++) {
                 buffer[i] = scanner.nextLine().trim();
             }
-
-            System.out.println(buffer.length);
 
             Arrays.sort(buffer, Comparator.comparingInt((String o1) -> {
                 if (o1 == null)
