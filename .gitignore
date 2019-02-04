@@ -3,6 +3,7 @@
 
 # ndkcha files
 data/
+sub-*
 
 # User-specific stuff
 .idea/**/workspace.xml
