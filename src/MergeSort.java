@@ -20,7 +20,7 @@ public class MergeSort {
      * @param freeMemory the available main memory for the process
      */
     MergeSort(long freeMemory) {
-        this.noTuple = freeMemory / 100;
+        this.noTuple = freeMemory / 240;
         this.noTuple /= 1.7;
 
         System.out.println("Free memory (bytes): " + freeMemory);
