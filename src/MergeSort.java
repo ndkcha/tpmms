@@ -7,8 +7,9 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 class MergeSort {
-    static final int PRIMARY_KEY_START = 0;
-    static final int PRIMARY_KEY_END = 8;
+    // should be client_ID, not claim_ID
+    static final int PRIMARY_KEY_START = 18;
+    static final int PRIMARY_KEY_END = 27;
     static final int TUPLE_CAPACITY = 40; // 40 tuples in a single read for a sublist
     private long noTuple;
     private int sublistCount, totalTuples;
@@ -54,15 +55,19 @@ class MergeSort {
         this.sublistCount = 0;
         this.noOfReads1 = 0;
         String[] buffer = new String[(int) this.noTuple];
-
+        // For heapSort argument
+        int[] bufferCID = new int[(int) this.noTuple];
+        
         Scanner scanner = new Scanner(new FileReader(Query.DATA_FILE));
 
         while (scanner.hasNext()) {
             for (int i = 0; i < this.noTuple && scanner.hasNext(); i++) {
                 buffer[i] = scanner.nextLine().trim();
+                // For heapSort
+                bufferCID[i] = Integer.parseInt(buffer[i].substring(Phase1HeapSort.PRIMARY_KEY_START, Phase1HeapSort.PRIMARY_KEY_END));
                 this.totalTuples++;
             }
-
+            /*
             Arrays.sort(buffer, Comparator.comparingInt((String o1) -> {
                 if (o1 == null)
                     return 99999999;
@@ -72,7 +77,10 @@ class MergeSort {
                     return 99999999;
                 return Integer.parseInt(o1.substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
             }));
-
+            */
+            
+            heapSort(bufferCID,buffer);
+            
             this.sublistCount = writePhase(buffer, this.sublistCount);
 
             buffer = new String[(int) this.noTuple];
@@ -141,4 +149,59 @@ class MergeSort {
         printWriter.close();
         return sublistCount;
     }
+    
+    // To heapify a subtree rooted with node i which is 
+    // an index in arr[]. n is size of heap 
+    private void heapify(int[] arr, int n, int i, String[] bufferStr){ 
+        int largest = i; // Initialize largest as root 
+        int l = 2*i + 1; // left = 2*i + 1 
+        int r = 2*i + 2; // right = 2*i + 2 
+  
+        // If left child is larger than root 
+        if (l < n && arr[l] > arr[largest]) 
+            largest = l; 
+  
+        // If right child is larger than largest so far       
+        if (r < n && arr[r] > arr[largest])
+            largest = r; 
+  
+        // If largest is not root 
+        if (largest != i) 
+        { 
+        	int swap = arr[i]; 
+            arr[i] = arr[largest]; 
+            arr[largest] = swap;
+            // simultaneously heapifying the original data record 
+            String swapStr = bufferStr[i];
+            bufferStr[i] = bufferStr[largest]; 
+            bufferStr[largest] = swapStr;
+            
+            // Recursively heapify the affected sub-tree 
+            heapify(arr, n, largest,bufferStr); 
+        } 
+    }
+    
+    private void heapSort(int[] bufferData, String[] bufferStr){ 
+        int n = bufferData.length; 
+  
+        // Build heap (rearrange array) 
+        for (int i = n / 2 - 1; i >= 0; i--) 
+            heapify(bufferData, n, i,bufferStr); 
+  
+        // One by one extract an element from heap 
+        for (int i=n-1; i>=0; i--) 
+        { 
+            // Move current root to end 
+        	int temp = bufferData[0]; 
+            bufferData[0] = bufferData[i]; 
+            bufferData[i] = temp;
+            // simultaneously swapping the original data record
+            String tempStr = bufferStr[0];
+            bufferStr[0] = bufferStr[i]; 
+            bufferStr[i] = tempStr;
+  
+            // call max heapify on the reduced heap 
+            heapify(bufferData, i, 0,bufferStr); 
+        } 
+    } 
 }
