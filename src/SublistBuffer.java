@@ -15,6 +15,7 @@ public class SublistBuffer {
     }
 
     void load() {
+        this.pointer = 0;
         this.tuplesLoaded = 0;
         this.noOfReads++;
         for (int i = 0; i < MergeSort.TUPLE_CAPACITY && scanner.hasNext(); i++) {
