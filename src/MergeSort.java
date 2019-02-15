@@ -64,7 +64,7 @@ class MergeSort {
             for (int i = 0; i < this.noTuple && scanner.hasNext(); i++) {
                 buffer[i] = scanner.nextLine().trim();
                 // For heapSort
-                bufferCID[i] = Integer.parseInt(buffer[i].substring(Phase1HeapSort.PRIMARY_KEY_START, Phase1HeapSort.PRIMARY_KEY_END));
+                bufferCID[i] = Integer.parseInt(buffer[i].substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
                 this.totalTuples++;
             }
             /*
