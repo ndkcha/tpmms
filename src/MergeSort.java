@@ -101,15 +101,19 @@ class MergeSort {
         }
 
         for (int i = 0; i < this.totalTuples; i++) {
-            int min = sublistBuffers[0].getFirstValue(), minIndex = 0;
+            int min = 999999999, minIndex = 0;
 
-            for (int j = 1; j < this.sublistCount; j++) {
-                if (sublistBuffers[j].getFirstValue() < min) {
-                    minIndex = j;
+            for (int j = 0; j < this.sublistCount; j++) {
+                if (!sublistBuffers[j].isFileCompleted()) {
+                    if (sublistBuffers[j].getFirstValue() < min) {
+                        minIndex = j;
+                        min = sublistBuffers[j].getFirstValue();
+                    }
                 }
             }
 
             outputBuffer[indexOut++] = sublistBuffers[minIndex].getFirst();
+            sublistBuffers[minIndex].movePointer();
 
             if (indexOut == MergeSort.TUPLE_CAPACITY) {
                 this.writePhase(outputBuffer);
