@@ -1,3 +1,7 @@
+package support;
+
+import steps.MergeSort;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -7,14 +11,14 @@ public class SublistBuffer {
     private String[] buffer;
     private int pointer, noOfReads, tuplesLoaded;
 
-    SublistBuffer(String name) throws IOException {
+    public SublistBuffer(String name) throws IOException {
         this.scanner = new Scanner(new FileReader(name));
         this.buffer = new String[MergeSort.TUPLE_CAPACITY];
         this.pointer = 0;
         this.noOfReads = 0;
     }
 
-    void load() {
+    public void load() {
         this.pointer = 0;
         this.tuplesLoaded = 0;
         this.noOfReads++;
@@ -24,20 +28,20 @@ public class SublistBuffer {
         }
     }
 
-    int getNoOfReads() {
+    public int getNoOfReads() {
         return this.noOfReads;
     }
 
-    int getFirstValue() {
+    public int getFirstValue() {
         return Integer.parseInt(this.buffer[this.pointer]
-            .substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
+            .substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END));
     }
 
-    String getFirst() {
+    public String getFirst() {
         return this.buffer[this.pointer];
     }
 
-    void movePointer() {
+    public void movePointer() {
         this.pointer++;
 
         if (this.pointer == this.tuplesLoaded) {
@@ -48,7 +52,7 @@ public class SublistBuffer {
         }
     }
 
-    boolean isFileCompleted() {
+    public boolean isFileCompleted() {
         return this.pointer == -1;
     }
 }
