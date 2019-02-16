@@ -44,7 +44,7 @@ public class MergeSort {
             + this.noOfWrites2);
         System.out.println("Total number of tuples: " + this.totalTuples);
 
-        System.out.println("\nTotal time: " + (phase1Time + phase2Time) + "ms");
+        System.out.println("\nTotal sorting time: " + (phase1Time + phase2Time) + "ms");
     }
 
     private void phase1() throws IOException {
@@ -119,7 +119,7 @@ public class MergeSort {
     }
 
     private void writePhase(String[] buffer) throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.OUT_FILE, true));
+        PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.SORTED_FILE, true));
 
         for (String item : buffer) {
             if (item != null)

@@ -1,4 +1,5 @@
 import steps.MergeSort;
+import steps.Sum;
 
 import java.io.IOException;
 
@@ -11,12 +12,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
         long freeMemory = Runtime.getRuntime().freeMemory();
         long noTuple = freeMemory / 250;
-        noTuple /= 1.6;
+        noTuple /= 1.55;
 
         System.out.println("Free memory (bytes): " + freeMemory);
         System.out.println("Number of tuples(s) to fit: " + noTuple);
 
-        MergeSort mergeSort = new MergeSort(freeMemory);
+        MergeSort mergeSort = new MergeSort(noTuple);
         mergeSort.sort();
+
+        mergeSort = null;
+        System.gc();
+
+        Sum sum = new Sum(noTuple);
+        sum.calculateSum();
     }
 }
