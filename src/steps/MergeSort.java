@@ -54,13 +54,13 @@ public class MergeSort {
         // For heapSort argument
         int[] bufferCID = new int[(int) this.noTuple];
         
-        Scanner scanner = new Scanner(new FileReader(Query.DATA_FILE));
+        Scanner scanner = new Scanner(new FileReader(Constants.DATA_FILE));
 
         while (scanner.hasNext()) {
             for (int i = 0; i < this.noTuple && scanner.hasNext(); i++) {
                 buffer[i] = scanner.nextLine().trim();
                 // For heapSort
-                bufferCID[i] = Integer.parseInt(buffer[i].substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
+                bufferCID[i] = Integer.parseInt(buffer[i].substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END));
                 this.totalTuples++;
             }
             /*
