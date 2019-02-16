@@ -26,7 +26,7 @@ public class MergeSort {
         this.sublistCount = this.totalTuples = this.noOfReads2 = this.noOfWrites2 = this.noOfReads1 = 0;
     }
 
-    public void sort() throws IOException {
+    public long sort() throws IOException {
         long startTime = System.currentTimeMillis();
         long phase1Time, phase2Time;
 
@@ -45,6 +45,7 @@ public class MergeSort {
         System.out.println("Total number of tuples: " + this.totalTuples);
 
         System.out.println("\nTotal sorting time: " + (phase1Time + phase2Time) + "ms");
+        return phase1Time + phase2Time;
     }
 
     private void phase1() throws IOException {

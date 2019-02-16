@@ -18,7 +18,7 @@ public class Sum {
         this.outputTuple = (int) (((double) noTuple) * 0.3);
     }
 
-    public void calculateSum() throws IOException {
+    public long calculateSum() throws IOException {
         long startTime = System.currentTimeMillis();
         Scanner scanner = new Scanner(new FileReader(Constants.SORTED_FILE));
         String inputBuffer[] = new String[this.inputTuple];
@@ -93,6 +93,8 @@ public class Sum {
 
         long difference = System.currentTimeMillis() - startTime;
         System.out.println("\nTime taken for calculating sum: " + difference + "ms");
+
+        return difference;
     }
 
     private void writeTopTen(String[] buffer) throws IOException {

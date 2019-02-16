@@ -18,12 +18,14 @@ public class Main {
         System.out.println("Number of tuples(s) to fit: " + noTuple);
 
         MergeSort mergeSort = new MergeSort(noTuple);
-        mergeSort.sort();
+        long sortTIme = mergeSort.sort();
 
         mergeSort = null;
         System.gc();
 
         Sum sum = new Sum(noTuple);
-        sum.calculateSum();
+        long sumTIme = sum.calculateSum();
+
+        System.out.println("Overall time: " + (sortTIme + sumTIme) + "ms");
     }
 }
