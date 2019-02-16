@@ -1,3 +1,8 @@
+package steps;
+
+import support.Constants;
+import support.SublistBuffer;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,31 +11,22 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-class MergeSort {
-    // should be client_ID, not claim_ID
-    static final int PRIMARY_KEY_START = 18;
-    static final int PRIMARY_KEY_END = 27;
-    static final int TUPLE_CAPACITY = 40; // 40 tuples in a single read for a sublist
+public class MergeSort {
+    public static final int TUPLE_CAPACITY = 40; // 40 tuples in a single read for a sublist
     private long noTuple;
     private int sublistCount, totalTuples;
     private int noOfReads1, noOfReads2, noOfWrites2;
 
     /**
      * Initializes the parameters
-     * We divide the free memory by the size of 1 tuple to get total number of tuples we can fit into the memory.
-     * Then we adjust the number of tuples in the memory with respect to the additional usage during the process.
-     * @param freeMemory the available main memory for the process
+     * @param noTuple number of tuples to fit
      */
-    MergeSort(long freeMemory) {
-        this.noTuple = freeMemory / 250;
-        this.noTuple /= 1.6;
+    public MergeSort(long noTuple) {
+        this.noTuple = noTuple;
         this.sublistCount = this.totalTuples = this.noOfReads2 = this.noOfWrites2 = this.noOfReads1 = 0;
-
-        System.out.println("Free memory (bytes): " + freeMemory);
-        System.out.println("Number of tuples(s) to fit: " + this.noTuple);
     }
 
-    void sort() throws IOException {
+    public void sort() throws IOException {
         long startTime = System.currentTimeMillis();
         long phase1Time, phase2Time;
 
@@ -71,11 +67,11 @@ class MergeSort {
             Arrays.sort(buffer, Comparator.comparingInt((String o1) -> {
                 if (o1 == null)
                     return 99999999;
-                return Integer.parseInt(o1.substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
+                return Integer.parseInt(o1.substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END));
             }).thenComparing((String o1) -> {
                 if (o1 == null)
                     return 99999999;
-                return Integer.parseInt(o1.substring(MergeSort.PRIMARY_KEY_START, MergeSort.PRIMARY_KEY_END));
+                return Integer.parseInt(o1.substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END));
             }));
             */
             
@@ -130,7 +126,7 @@ class MergeSort {
     }
 
     private void writePhase(String[] buffer) throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileWriter(Query.OUT_FILE, true));
+        PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.OUT_FILE, true));
 
         for (String item : buffer) {
             if (item != null)
