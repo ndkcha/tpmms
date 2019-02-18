@@ -67,11 +67,14 @@ public class MergeSort {
                 buffer[i] = scanner.nextLine().trim();
                 this.totalTuples++;
             }
-
+            /*
             Arrays.sort(buffer, 0, i, Comparator.comparingInt((String o1) ->
                 Integer.parseInt(o1.substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END)))
                 .thenComparing((String o1) ->
                     Integer.parseInt(o1.substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END))));
+            */
+            
+            quickSort(bufferCID,0,((int)this.noTuple-1),buffer);
 
             this.sublistCount = writePhase(buffer, this.sublistCount);
 
@@ -140,4 +143,56 @@ public class MergeSort {
         printWriter.close();
         return sublistCount;
     }
+        /* low  --> Starting index,  high  --> Ending index */
+    
+    private void quickSort(int arr[], int low, int high, String[] bufferStr)
+    {
+    	if (low < high) 
+        { 
+            // pi is dividing index, arr[pi] is  
+            //  now at right place 
+            int pi = dividing(arr, low, high,bufferStr); 
+  
+            // Recursively sort elements before 
+            // dividing and after dividing 
+            quickSort(arr, low, pi-1,bufferStr); 
+            quickSort(arr, pi+1, high,bufferStr); 
+        } 
+    }
+
+    private int dividing(int arr[], int low, int high, String[] bufferStr) 
+    { 
+        int pivot = arr[high];  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than or 
+            // equal to pivot 
+            if (arr[j] <= pivot) 
+            { 
+                i++; 
+  
+                // simultaneously swapping the original data record!  
+                int temp = arr[i]; 
+                arr[i] = arr[j]; 
+                arr[j] = temp;
+                
+                String tempStr = bufferStr[i];
+                bufferStr[i] = bufferStr[j]; 
+                bufferStr[j] = tempStr;
+            } 
+        } 
+  
+        // simultaneously swapping the original data record!  
+        int temp = arr[i+1]; 
+        arr[i+1] = arr[high]; 
+        arr[high] = temp;
+        String tempStr = bufferStr[i+1];
+        bufferStr[i+1] = bufferStr[high]; 
+        bufferStr[high] = tempStr;
+  
+        return i+1; 
+    } 
+    
+    
 }
