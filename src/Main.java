@@ -13,7 +13,7 @@ public class Main {
         System.gc();
         long freeMemory = Runtime.getRuntime().freeMemory();
         long noTuple = freeMemory / 250;
-        noTuple /= 1.619;
+        noTuple /= 1.7;
 
         System.out.println("Free memory (bytes): " + freeMemory);
         System.out.println("Number of tuples(s) to fit: " + noTuple);
