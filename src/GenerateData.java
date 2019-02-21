@@ -31,7 +31,7 @@ public class GenerateData {
                 String clientId = String.format("%09d", random.nextInt(99999));
                 String nameIt = clientId.substring(0, 1);
                 String newName = name.concat(nameIt);
-                String damageL = String.format("%06d", random.nextInt(999999));
+                String damageL = String.format("%06d", random.nextInt(99999));
                 String damageT = String.format("%02d", random.nextInt(99));
                 String damage = damageL + "." + damageT;
 
