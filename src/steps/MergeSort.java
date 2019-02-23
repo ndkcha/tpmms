@@ -125,7 +125,7 @@ public class MergeSort {
                 headClientId = clientId;
                 sum = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
 
-                if (topTenPointer != 10)
+                if (topTenPointer < 10)
                     topTen[topTenPointer++] = finalTup;
                 else {
                     Arrays.sort(topTen, (String o1, String o2) -> {
@@ -136,7 +136,7 @@ public class MergeSort {
 
                     double lastSum = Double.parseDouble(topTen[9].substring(Constants.PRIMARY_KEY_LENGTH));
                     if (sum > lastSum)
-                        topTen[9] = tup;
+                        topTen[9] = finalTup;
                 }
             }
 
