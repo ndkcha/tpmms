@@ -22,11 +22,11 @@ public class Main {
         long sortTIme = mergeSort.sort();
 
         mergeSort = null;
-        System.gc();
+//        System.gc();
 
-        Sum sum = new Sum(noTuple);
-        long sumTIme = sum.calculateSum();
+//        Sum sum = new Sum(noTuple);
+//        long sumTIme = sum.calculateSum();
 
-        System.out.println("Overall time: " + (sortTIme + sumTIme) + "ms");
+//        System.out.println("Overall time: " + (sortTIme) + "ms");
     }
 }

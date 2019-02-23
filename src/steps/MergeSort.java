@@ -84,6 +84,10 @@ public class MergeSort {
     private void phase2() throws IOException {
         SublistBuffer[] sublistBuffers = new SublistBuffer[this.sublistCount];
         String[] outputBuffer = new String[MergeSort.TUPLE_CAPACITY];
+        String[] topTen = new String[10];
+        int topTenPointer = 0;
+        String headClientId = null;
+        double sum = 0.0;
         int indexOut = 0;
 
         for (int i = 0; i < this.sublistCount; i++) {
@@ -103,7 +107,39 @@ public class MergeSort {
                 }
             }
 
-            outputBuffer[indexOut++] = sublistBuffers[minIndex].getFirst();
+            String tup = sublistBuffers[minIndex].getFirst();
+            String clientId = tup.substring(Constants.PRIMARY_KEY_START, Constants.PRIMARY_KEY_END);
+
+            if (headClientId == null) {
+                headClientId = clientId;
+                sum = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
+                continue;
+            }
+
+            if (headClientId.equalsIgnoreCase(clientId)) {
+                double amountPaid = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
+                sum += amountPaid;
+            } else {
+                String finalTup = headClientId.concat(String.valueOf(sum));
+                outputBuffer[indexOut++] = finalTup;
+                headClientId = clientId;
+                sum = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
+
+                if (topTenPointer != 10)
+                    topTen[topTenPointer++] = finalTup;
+                else {
+                    Arrays.sort(topTen, (String o1, String o2) -> {
+                        double l = Double.parseDouble(o2.substring(Constants.PRIMARY_KEY_LENGTH));
+                        double r = Double.parseDouble(o1.substring(Constants.PRIMARY_KEY_LENGTH));
+                        return (int) (l - r);
+                    });
+
+                    double lastSum = Double.parseDouble(topTen[9].substring(Constants.PRIMARY_KEY_LENGTH));
+                    if (sum > lastSum)
+                        topTen[9] = tup;
+                }
+            }
+
             sublistBuffers[minIndex].movePointer();
 
             if (indexOut == MergeSort.TUPLE_CAPACITY) {
@@ -115,9 +151,28 @@ public class MergeSort {
 
         this.writePhase(outputBuffer);
 
+        Arrays.sort(topTen, (String o1, String o2) -> {
+            double l = Double.parseDouble(o2.substring(Constants.PRIMARY_KEY_LENGTH));
+            double r = Double.parseDouble(o1.substring(Constants.PRIMARY_KEY_LENGTH));
+            return (int) (l - r);
+        });
+
+        this.writeTopTen(topTen);
+
         for (SublistBuffer buffer : sublistBuffers) {
             this.noOfReads2 += buffer.getNoOfReads();
         }
+    }
+
+    private void writeTopTen(String[] buffer) throws IOException {
+        PrintWriter printWriter = new PrintWriter(new FileWriter(Constants.TOP_TEN_FILE));
+
+        for (String b : buffer) {
+            if (b != null)
+                printWriter.println(b);
+        }
+
+        printWriter.close();
     }
 
     private void writePhase(String[] buffer) {
