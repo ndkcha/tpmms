@@ -10,10 +10,11 @@ public class Main {
      * Then we adjust the number of tuples in the memory with respect to the additional usage during the process.
      */
     public static void main(String[] args) throws IOException {
+        double coof = System.getProperty("os.name").contains("Win") ? 2.8 : 1.7;
         System.gc();
         long freeMemory = Runtime.getRuntime().freeMemory();
         long noTuple = freeMemory / 250;
-        noTuple /= 1.7;
+        noTuple /= coof;
 
         System.out.println("Free memory (bytes): " + freeMemory);
         System.out.println("Number of tuples(s) to fit: " + noTuple);
