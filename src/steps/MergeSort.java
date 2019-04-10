@@ -123,7 +123,6 @@ public class MergeSort {
                 String finalTup = headClientId.concat(String.valueOf(sum));
                 outputBuffer[indexOut++] = finalTup;
                 headClientId = clientId;
-                sum = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
 
                 if (topTenPointer < 10)
                     topTen[topTenPointer++] = finalTup;
@@ -138,6 +137,7 @@ public class MergeSort {
                     if (sum > lastSum)
                         topTen[9] = finalTup;
                 }
+                sum = Double.parseDouble(tup.substring(Constants.SECONDARY_KEY_START));
             }
 
             sublistBuffers[minIndex].movePointer();
